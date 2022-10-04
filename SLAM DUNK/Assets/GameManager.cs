@@ -6,8 +6,15 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject platform;
+    [Header("---LEVEL BASIC OBJECTS")]
+    [SerializeField] private GameObject platform;
+    [SerializeField] private GameObject BasketObj;
+    [SerializeField] private GameObject BasketEnlargeObj;
+    [SerializeField] private GameObject[] FeaturePoints;
 
+
+
+    [Header("---UI OBJECTS")]
     [SerializeField] private Image[] missionImages;
     [SerializeField] private Sprite missionSprite;
     [SerializeField] private int ballToBeThrown;
@@ -22,9 +29,20 @@ public class GameManager : MonoBehaviour
             missionImages[i].gameObject.SetActive(true);
 
         }
+
+        Invoke("FeatureCreate", 3f);
     }
 
-    
+    void FeatureCreate()
+    {
+        int randomNumber = Random.Range(0,FeaturePoints.Length-1);
+
+        BasketEnlargeObj.transform.position = FeaturePoints[randomNumber].transform.position;
+        BasketEnlargeObj.SetActive(true);
+
+    }
+
+
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -59,11 +77,22 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Win");
         }
+
+        if (basketNumber ==1)
+        {
+            FeatureCreate();
+        }
     }
 
     public void Lost()
     {
         Debug.Log("Lose");
+
+    }
+
+    public void BasketEnlarge()
+    {
+        BasketObj.transform.localScale = new Vector3(55f, 55f, 55f);
 
     }
 }
