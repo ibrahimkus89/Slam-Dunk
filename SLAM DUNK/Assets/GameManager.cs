@@ -1,13 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour
 {
     public GameObject platform;
+
+    [SerializeField] private Image[] missionImages;
+    [SerializeField] private Sprite missionSprite;
+    [SerializeField] private int ballToBeThrown;
+
+    int basketNumber;
+
     void Start()
     {
-        
+
+        for (int i = 0; i <ballToBeThrown; i++)
+        {
+            missionImages[i].gameObject.SetActive(true);
+
+        }
     }
 
     
@@ -32,6 +46,24 @@ public class GameManager : MonoBehaviour
 
 
         }
+
+    }
+
+    public void Basket()
+    {
+        basketNumber++;
+        missionImages[basketNumber - 1].sprite = missionSprite;
+
+
+        if (basketNumber == ballToBeThrown)
+        {
+            Debug.Log("Win");
+        }
+    }
+
+    public void Lost()
+    {
+        Debug.Log("Lose");
 
     }
 }
