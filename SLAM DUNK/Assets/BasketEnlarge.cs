@@ -33,6 +33,6 @@ public class BasketEnlarge : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         gameObject.SetActive(false);
-        _GameManager.BasketEnlarge();
+        _GameManager.BasketEnlarge(transform.position);
     }
 }

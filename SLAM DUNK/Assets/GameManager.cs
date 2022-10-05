@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject BasketObj;
     [SerializeField] private GameObject BasketEnlargeObj;
     [SerializeField] private GameObject[] FeaturePoints;
+    [SerializeField] private AudioSource[] Sounds;
+    [SerializeField] private ParticleSystem[] Effects;
 
 
 
@@ -67,15 +69,19 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void Basket()
+    public void Basket(Vector3 pose)
     {
         basketNumber++;
         missionImages[basketNumber - 1].sprite = missionSprite;
+        Effects[0].transform.position = pose;
+        Effects[0].gameObject.SetActive(true);
+        Sounds[1].Play();
 
 
         if (basketNumber == ballToBeThrown)
         {
-            Debug.Log("Win");
+            
+            Win();
         }
 
         if (basketNumber ==1)
@@ -86,12 +92,20 @@ public class GameManager : MonoBehaviour
 
     public void Lost()
     {
+        Sounds[2].Play();
         Debug.Log("Lose");
 
     }
 
-    public void BasketEnlarge()
+     void Win()
     {
+        Sounds[3].Play();
+    }
+    public void BasketEnlarge(Vector3 pose)
+    {
+        Effects[1].transform.position = pose;
+        Effects[1].gameObject.SetActive(true);
+        Sounds[0].Play();
         BasketObj.transform.localScale = new Vector3(55f, 55f, 55f);
 
     }
