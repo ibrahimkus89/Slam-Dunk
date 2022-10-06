@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LevelName;
 
     int basketNumber;
-
+    float fingerPosX;
     void Start()
     {
         //SceneManager.GetActiveScene();
@@ -55,24 +55,30 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Time.timeScale!=0)
         {
-            if (platform.transform.position.x > -1.30)
+            if (Input.touchCount>0)
             {
-                platform.transform.position = Vector3.Lerp(platform.transform.position, new Vector3(platform.transform.position.x - .3f, platform.transform.position.y, platform.transform.position.z), .050f);
+                Touch touch = Input.GetTouch(0);
+                Vector3 touchPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
 
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        fingerPosX = touchPosition.x - platform.transform.position.x;
+                        break;
+
+
+                    case TouchPhase.Moved:
+                        if (touchPosition.x - fingerPosX > -1.15 && touchPosition.x - fingerPosX < -1.15)
+                        {
+                            platform.transform.position = Vector3.Lerp(platform.transform.position, new Vector3(fingerPosX, platform.transform.position.y, platform.transform.position.z), 5f);
+
+                        }
+                        break;
+                }
             }
-
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if ( platform.transform.position.x < 1.30)
-            {
-                platform.transform.position = Vector3.Lerp(platform.transform.position, new Vector3(platform.transform.position.x + .3f, platform.transform.position.y, platform.transform.position.z), .050f);
-
-            }
-
-
+           
         }
 
     }
